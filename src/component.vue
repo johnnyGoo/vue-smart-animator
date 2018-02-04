@@ -34,7 +34,7 @@
         methods: {
             play: function () {
                 let self=this;
-
+                self.$emit('play')
                 this.queue.play().then(function () {
                     self.$emit('next')
 
@@ -57,11 +57,12 @@
             for(let i=0;i<frames.length;i++){
                 initFrames.push(new Frame(frames[i].styles,frames[i].configs))
             }
+
+            let instant=this.options.instant
+            this.options.instant=false
             this.queue = new Queue(this.$el, initFrames, this.options)
-            if(this.queue.promise){
-                this.queue.promise.then(function () {
-                    self.$emit('next')
-                })
+            if(instant){
+               self.play()
             }
 
         }

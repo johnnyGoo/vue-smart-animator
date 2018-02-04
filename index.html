@@ -33,7 +33,7 @@
                         }" :frames="frames" @next="next('a1')">
         aaa
     </vue-smart-animator>
-    <vue-smart-animator ref="a1" :frames="frames" @next="$refs.a2.play()">
+    <vue-smart-animator ref="a1" :frames="frames" @play="play" @next="$refs.a2.play()">
         aaa
     </vue-smart-animator>
     <vue-smart-animator ref="a2" :frames="frames" >
@@ -58,6 +58,8 @@
         methods: {next:function (id) {
             console.log(id)
                 this.$refs[id].play()
+            },play:function () {
+                console.log('played')
             }},
         components: {
             VueSmartAnimator: VueSmartAnimator

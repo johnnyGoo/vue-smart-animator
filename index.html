@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>vue-smart-animator</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<style>
+
+
+    body, html {
+
+    }
+
+    #app {
+
+    }
+</style>
+<body>
+<div id="app">
+    <vue-smart-animator :options="{
+                        startFrom: 0,
+                        pauseAt: [],
+                        prefix: false,
+                        count: 1,
+                        clear: true,
+                        applyOnEnd: true,
+                        instant: true
+                        }" :frames="frames" @next="next('a1')">
+        aaa
+    </vue-smart-animator>
+    <vue-smart-animator ref="a1" :frames="frames" @next="$refs.a2.play()">
+        aaa
+    </vue-smart-animator>
+    <vue-smart-animator ref="a2" :frames="frames" >
+        aaa
+    </vue-smart-animator>
+</div>
+
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="dist/vue-smart-animator.js"></script>
+<script>
+    frames = [];
+    frames.push({
+        styles: {background: 'rgba(100,100,100,.5)', transform: 'translateY(400px) rotateZ(90deg)'},
+        configs: {'duration': '.5s', 'fill-mode': 'forwards', 'timing-function': 'linear'}
+    })
+    new Vue({
+        el: '#app', data: {
+            frames: frames
+        },
+        mounted: function () {
+        },
+        methods: {next:function (id) {
+            console.log(id)
+                this.$refs[id].play()
+            }},
+        components: {
+            VueSmartAnimator: VueSmartAnimator
+        }
+    })
+</script>
+</body>
+</html>

@@ -21,22 +21,16 @@
     }
 </style>
 <body>
-<div id="app">
-    <vue-smart-animator :options="{
-                        startFrom: 0,
-                        pauseAt: [],
-                        prefix: false,
-                        count: 1,
-                        clear: true,
-                        applyOnEnd: true,
-                        instant: true
+<div id="app" @click="click">
+    <vue-smart-animator ref="a0" :options="{
+                        instant: true,pauseAt:[2]
                         }" :frames="frames" @next="next('a1')">
         aaa
     </vue-smart-animator>
     <vue-smart-animator ref="a1" :frames="frames" @play="play" @next="$refs.a2.play()">
         aaa
     </vue-smart-animator>
-    <vue-smart-animator ref="a2" :frames="frames" >
+    <vue-smart-animator ref="a2" :frames="frames">
         aaa
     </vue-smart-animator>
 </div>
@@ -46,8 +40,11 @@
 <script>
     frames = [];
     frames.push({
-        styles: {background: 'rgba(100,100,100,.5)', transform: 'translateY(400px) rotateZ(90deg)'},
-        configs: {'duration': '.5s', 'fill-mode': 'forwards', 'timing-function': 'linear'}
+        styles: {background: 'rgba(250,100,100,.5)', transform: 'translateY(200px) '}
+    },{
+        styles: {background: 'rgba(100,250,100,.5)', transform: 'translateY(400px) '}
+    }, {
+        styles: {background: 'rgba(100,100,200,.5)', transform: 'translateY(600px) '}
     })
     new Vue({
         el: '#app', data: {
@@ -55,12 +52,18 @@
         },
         mounted: function () {
         },
-        methods: {next:function (id) {
-            console.log(id)
+        methods: {
+            click: function () {
+                this.$refs.a0.resume()
+            },
+            next: function (id) {
+                console.log(id,'play')
                 this.$refs[id].play()
-            },play:function () {
-                console.log('played')
-            }},
+            },
+            play: function () {
+                console.log('a1 played')
+            }
+        },
         components: {
             VueSmartAnimator: VueSmartAnimator
         }

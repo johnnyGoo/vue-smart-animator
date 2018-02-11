@@ -23,11 +23,11 @@
 <body>
 <div id="app" @click="click">
     <vue-smart-animator ref="a0" :options="{
-                        instant: true,pauseAt:[2]
+                        instant: true
                         }" :frames="frames" @next="next('a1')">
         aaa
     </vue-smart-animator>
-    <vue-smart-animator ref="a1" :frames="frames" @play="play" @next="$refs.a2.play()">
+    <vue-smart-animator ref="a1"  :frames="frames" @play="play" @next="$refs.a2.play()">
         aaa
     </vue-smart-animator>
     <vue-smart-animator ref="a2" :frames="frames">
@@ -40,11 +40,11 @@
 <script>
     frames = [];
     frames.push({
-        styles: {background: 'rgba(250,100,100,.5)', transform: 'translateY(200px) '}
+        styles: {background: 'rgba(250,100,100,.5)', transform: 'translateY(100px) '}
     },{
-        styles: {background: 'rgba(100,250,100,.5)', transform: 'translateY(400px) '}
+        styles: {background: 'rgba(100,250,100,.5)', transform: 'translateY(200px) '}
     }, {
-        styles: {background: 'rgba(100,100,200,.5)', transform: 'translateY(600px) '}
+        styles: {background: 'rgba(100,100,200,.5)', transform: 'translateY(300px) '}
     })
     new Vue({
         el: '#app', data: {
@@ -54,7 +54,9 @@
         },
         methods: {
             click: function () {
-                this.$refs.a0.resume()
+                this.$refs.a0.replay()
+                this.$refs.a1.clear()
+                this.$refs.a2.clear()
             },
             next: function (id) {
                 console.log(id,'play')

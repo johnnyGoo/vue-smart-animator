@@ -3,9 +3,7 @@
         <slot></slot>
     </div>
 </template>
-<style scoped>
 
-</style>
 
 <script>
     function extend(obj) {
@@ -46,16 +44,19 @@
             play: function () {
                 let self = this;
                 self.$emit('play')
-                this.queue.play().then(function () {
-                    self.$emit('next')
-                    self.$emit('stop')
-                })
+                this.queue.play()
             }, pause: function () {
                 this.queue.pause()
             }, resume: function () {
                 this.queue.resume()
-            }, restart: function () {
-                 this.play()
+            }, clear: function () {
+                this.queue.clear()
+            },replay(){
+                let self=this;
+                this.queue.clear()
+                setTimeout(function () {
+                    self.play()
+                })
             }
         },
         data: function () {
@@ -71,18 +72,21 @@
             let options=extend({
                 startFrom: 0,
                 pauseAt: [],
-                prefix: true,
+                prefix: false,
                 count: 1,
                 clear: false,
                 applyOnEnd: false,
-                instant: false
+                instant: false,callback:function () {
+                    self.$emit('next')
+                    self.$emit('stop')
+                }
             }, this.options)
 
             let instant = options.instant
-            options.instant = false
+
             this.queue = new Queue(this.$el, initFrames, options)
             if (instant) {
-                self.play()
+                self.$emit('play')
             }
 
         }
